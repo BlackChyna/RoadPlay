@@ -19,15 +19,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: android-actions/setup-android@v3
-
-      # Installs Gradle 8.10.2 on PATH (also caches dependencies).
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.10.2
 
-      # gradle-wrapper.jar is a binary that could not be generated when this project was
-      # written. If it is not committed, create the wrapper here so ./gradlew always works.
       - name: Ensure Gradle wrapper exists
         run: |
           if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
