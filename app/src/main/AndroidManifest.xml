@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- No storage permission: videos are opened through the Storage Access Framework. -->
+
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <queries>
+        <!-- Needed on Android 11+ so CarConnection can see Android Auto. -->
+        <package android:name="com.google.android.projection.gearhead" />
+        <provider android:authorities="androidx.car.app.connection" />
+    </queries>
+
+    <application
+        android:name=".RoadPlayApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RoadPlay">
+
+        <!-- Declares this app as a MEDIA (audio) app for Android Auto.
+             Deliberately NOT declaring "video": see docs/ANDROID_AUTO_COMPATIBILITY.md -->
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation|uiMode"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".playback.PlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

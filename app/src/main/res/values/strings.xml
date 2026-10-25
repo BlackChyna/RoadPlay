@@ -1,0 +1,4 @@
+<resources>
+    <!-- Change this one string to rename the app everywhere it is displayed. -->
+    <string name="app_name">RoadPlay</string>
+</resources>
